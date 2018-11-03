@@ -1,9 +1,10 @@
 import os
 import pygame
 import time
+from sensor import read
 
 punchSound = 'sounds/punch.wav'
-attractSound = 'sounds/punch.wav'
+attractSound = 'sounds/attract2.ogg'
 pygame.init()
 pygame.mixer.music.load(punchSound)
 os.system('amixer cset numid=3 1')
@@ -25,6 +26,8 @@ def scareMe():
     pygame.mixer.music.play()
     turnOffLights()
     #play(file)
+
+    time.sleep(5)
     turnOnLights()
 
 def attractAndScare():
@@ -36,9 +39,15 @@ def attractAndScare():
     pygame.mixer.music.load(punchSound)
 
     print "Wait for signal"
-    time.sleep(2)
-    print "Signal detected"
-    scareMe()
+    for x in range(600):
+        result = read()
+        time.sleep(0.1)
+        if result:
+            print "Signal detected"
+            scareMe()
+            break
+        else:
+            print "Nobody here"
 
 attractAndScare()
 
