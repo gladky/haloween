@@ -1,9 +1,13 @@
 import os
+import pygame
+import time
 
-file = 'sounds/punch.wav'
+punchSound = 'sounds/punch.wav'
+attractSound = 'sounds/punch.wav'
+pygame.init()
+pygame.mixer.music.load(punchSound)
+os.system('amixer cset numid=3 1')
 
-def play(file):
-    os.system('omxplayer -o local ' + file + '')
 
 def sendSignal(code):
     os.system('../433Utils/RPi_utils/codesend '+code+' 5 500')
@@ -18,10 +22,23 @@ def turnOnLights():
 
 def scareMe():
     print "Now scare me!"
-    play(file)
+    pygame.mixer.music.play()
     turnOffLights()
     #play(file)
     turnOnLights()
 
-scareMe()
+def attractAndScare():
+    pygame.mixer.music.load(attractSound)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+
+    pygame.mixer.music.load(punchSound)
+
+    print "Wait for signal"
+    time.sleep(2)
+    print "Signal detected"
+    scareMe()
+
+attractAndScare()
 
