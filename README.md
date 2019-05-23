@@ -14,6 +14,8 @@ description: Bla bla bla
 
 * Animals are now super cute, all of them.
 
+{% page-ref page="example-group/page-2-faq.md" %}
+
 ## 14.0.0 - 2042-10-06
 
 ### Added
